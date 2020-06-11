@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+	<!--<style type="text/css"> 
+   	body { padding-top: 70px; }
+	</style>-->
+
+	<!-- Font Awsome -->
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" title="main">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Haier Web Controller</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+	<script type="text/javascript" src="ui.js"></script>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<ul class="nav nav-tabs" id="tab">
+			<li class="active">
+				<a href="#tab_ac_cont" data-toggle="tab">Control Panel</a>
+			</li>
+			<li>
+				<a href="#tab_alarm" data-toggle="tab">Power Schedule</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane fade in active" id="tab_ac_cont">
+				<div  class="alert alert-danger sr-only" id="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<p></p>
+				</div>
+
+				<div class="container-fluid">
+					<div class="row">
+
+						<!-- ON/OFF -->
+						<div class="col-sm-offset-10 col-sm-2 pull-right">
+							<a id="power-btn" class="btn btn-default btn-power" onclick='power_onclick();'><i class="fa fa-power-off" style="font-size:1.6em;color:black;"></i><b style="font-size:1.5em;" id="power"> OFF</b></a>
+						</div>
+
+					</div>
+					<br>
+					<div class="row">
+					<div class="col-md-4 col-sm-6">
+
+						<!-- Mode -->
+							<h4>Mode</h4>
+							<div class="btn-group">
+								<a class="btn btn-default mode-btn" id="mode_cooling"	onclick='mode_onclick(1);'><i class="fa fa-asterisk fa-2x"></i></a>
+								<a class="btn btn-default mode-btn" id="mode_dehum"		onclick='mode_onclick(2);'><i class="fa fa-tint fa-2x"></i></a>
+								<a class="btn btn-default mode-btn" id="mode_heating"	onclick='mode_onclick(3);'><i class="fa fa-sun-o fa-2x"></i></a>
+								<a class="btn btn-default mode-btn" id="mode_fan"		onclick='mode_onclick(4);'><i class="fa fa-retweet fa-2x"></i></a>
+								<a class="btn btn-default mode-btn" id="mode_auto" 		onclick='mode_onclick(0);'><i class="fa fa-font fa-2x"></i></a>
+							</div>
+
+						</div>
+						<div class="col-md-4 col-sm-6">
+
+							<!-- Fan -->
+							<h4>Fan</h4>
+							<div class="btn-group">
+								<a class="btn btn-default fan-btn" id="fan_auto" 	onclick='fan_onclick("0");'><i class="fa fa-font fa-2x"></i></a>
+								<a class="btn btn-default" onclick='fan_onclick(1);'><img src="level_1_off.svg" height="29px" id="fan_lvl_1"></a>
+								<a class="btn btn-default" onclick='fan_onclick(2);'><img src="level_2_off.svg" height="29px" id="fan_lvl_2"></a>
+								<a class="btn btn-default" onclick='fan_onclick(3);'><img src="level_3_off.svg" height="29px" id="fan_lvl_3"></a>
+							</div>
+
+						</div>
+					</div>
+					<br>
+					<br>
+					<div class="row">
+						<div class="col-md-4 col-sm-6" id="target_temp_col">
+
+							<!--Target temperature-->
+							<h4>Target temperature</h4>
+							<div class="btn-group" >
+								<a class="btn btn-default" style="font-size:2.2em;padding-top:12px;padding-bottom:12px;"><b id="target_temp"> ~ C</b></a>
+							</div>
+
+							<div class="btn-group-vertical">
+								<a class="btn btn-default wing-btn" id="target_temp_up" onclick='temp_onclick(1);' style="font-size:1.7em;padding-top:0px;padding-bottom:0px;"><i class="fa fa-chevron-up"></i></a>
+								<a class="btn btn-default wing-btn"	id="target_temp_down" onclick='temp_onclick(-1);' style="font-size:1.7em;padding-top:0px;padding-bottom:0px;"><i class="fa fa-chevron-down"></i></a>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="tab_alarm">
+				<ul class="form_list">
+					<li>
+						<label>Alarm active</label>
+						<div class="btn-group btn-toggle">
+							<button id='btn_on' value="" class="btn btn-sm btn-sch">ON</button>
+							<button id='btn_off' value="" class="btn btn-sm btn-sch">OFF</button>
+						</div>
+					</li>
+					<br>
+					</br>
+					<li>
+						<label>Start time:</label>
+						<select id="start_hour">
+						</select>:
+						<select id="start_minute">
+						</select>
+					</li>
+					<li>
+						<label>End time:</label>
+						<select id="end_hour">
+						</select>:
+						<select id="end_minute">
+						</select>
+					</li>
+					<br>
+					</br>
+					<li>
+						<label>ON Duration (in mins):</label>
+						<select id="on_duration">
+						</select>
+					</li>
+					<li>
+						<label>OFF Duration (in mins):</label>
+						<select id="off_duration">
+						</select>
+					</li>
+					<br>
+					</br>
+					<li>
+						<button class="saveButton">Save changes</button>
+					</li>
+				</ul>
+			</div>
+	</div>
+	<br>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	
+	
+	
+</body>
+
+</html>
